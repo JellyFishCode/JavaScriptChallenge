@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<body>
+  <h2>Update CSS Variables with <span class='highlight'>JS</span></h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+        <!-- dataset consists of all data attributes (data-name="blabla", data-color="green", etc.) -->
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <label for="opacity">Opacity:</label>
+    <input id="opacity" type="range" name="opacity" min="0" max="1" value="1" step="0.1">
+      <!-- add the step Attribute to allow decimals -->
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#ffc600">
+  </div>
+
+  <img src="https://jellyfishcode.github.io/JellyFishCode/img/optimus.jpg" alt="">
+
+  <style>
+    :root{
+      --base: yellow;
+      --spacing: 10px; /* padding */
+      --blur: 10px;
+      --opacity: 0;
+    }
+
+    img{
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+      opacity: var(--opacity);
+    }
+
+    .highlight{
+      color: var(--base);
+    }
+    body {
+      text-align: center;
+      background: #193549;
+      color: white;
+      font-family: 'Yu Gothic', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width: 100px;
+    }
+
+  </style>
+  <script>
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate(){    // after a change, the specified input will be updated
+      const suffix = this.dataset.sizing || ""; // color doesn't have datasizing so it's an empty string.
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+          // use backticks for template literals, sets the value of element with the this.name attribute
+      }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate)); 
+        /* the event change happens only after the element completed changing */
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+        /* mousemove triggers, while we hover the mouse over the event element */
+  </script>
+
+</body>
+</html>
