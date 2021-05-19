@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');
+  const text = hero.querySelector('h1');
+
+  function shadow(e){
+    const walk = 100; // 100px maximum distance
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+    // const { offsetWidth: width, offsetHeight: height } = hero; --- different style as the 2 above
+    let { offsetX: x, offsetY: y } = e; // takes continueously the offsetvalue from the mouse
+    if(this !== e.target){ // -- target is the container, or hero class
+    // If the mouse hovers over the text(different Offset), it adds the additional offset value from the text to the container offset
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+
+    const xWalk = Math.round((x / width * walk) - (walk / 2)); 
+    // calculates the maximum distance for the text shadow
+    const yWalk = Math.round((y / width * walk) - (walk / 2));
+
+    text.style.textShadow = `${xWalk}px ${yWalk}px 0 green`;
+  }
+
+  hero.addEventListener('mousemove', shadow);
+</script>
+</body>
+</html>
