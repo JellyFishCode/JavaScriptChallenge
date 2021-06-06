@@ -11,7 +11,7 @@ function timer(seconds) {
   displayEndTime(then);
 
   countdown = setInterval(() => {
-    const secondsLeft = Math.round((then - Date.now()) / 1000);
+    const secondsLeft = Math.round((then - Date.now()) / 1000); // doesn't round correctly without Math.round
     // check if we should stop it!
     if(secondsLeft < 0) {
       clearInterval(countdown);
